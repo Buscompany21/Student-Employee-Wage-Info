@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>
+    Home Page
+</h1>
+
+<p>
+    This is the index page with a link to a <a href={% url 'test' %}>second page</a>
+</p>
+
+<h2>Instructors</h2>
+<ul>
+    {% for instructor in instructors %}
+        <li>{{instructor.person.full_name}}</li>
+    {% endfor %}
+</ul>
+
+<h2>Students and Their Jobs</h2>
+<ul>
+    {% for student in students %}
+        <li>{{student.person.full_name}}
+            <ul>
+                {% for employment in student.employment_set.all %}
+                <li>
+                    {{employment.position_type}} for {{employment.supervisor.person.full_name}}
+                    {% if employment.class_code %}in class {{employment.class_code}}{% endif %}
+                    <ul>
+                        {% for semester in employment.semesters.all %}
+                        <li>
+                            {{semester.season.name}} {{semester.year}}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}
