@@ -89,7 +89,8 @@ class Employment(models.Model):
 
 class PayRate(models.Model):
     pay_rate = models.DecimalField(max_digits=5, decimal_places=2)
-    date = models.DateTimeField(default=datetime.datetime.now())
+    date = models.DateTimeField()
+    input_date = models.DateTimeField(default=datetime.datetime.now())
     employment = models.ForeignKey(Employment, on_delete=models.CASCADE)
     def __str__(self):
         return f'${self.pay_rate} for {self.employment.student.person.full_name} in {self.employment.class_code}'
