@@ -1,5 +1,7 @@
 from django.db import models
 import datetime
+from django.utils import timezone
+today = timezone.now
 
 # Create your models here.
 
@@ -76,7 +78,7 @@ class Employment(models.Model):
     position_type = models.ForeignKey(PositionType, on_delete=models.RESTRICT)
     empl_record = models.ForeignKey(EmplRecord, on_delete=models.RESTRICT)
     semesters = models.ManyToManyField(Semester)
-    hire_date = models.DateField(default=datetime.date.today())
+    hire_date = models.DateField(default=today)
     terminated_date = models.DateField(null=True, blank=True)
     survey_sent = models.DateTimeField(null=True, blank=True)
     eform_submission = models.DateTimeField(null=True, blank=True)
@@ -90,7 +92,7 @@ class Employment(models.Model):
 class PayRate(models.Model):
     pay_rate = models.DecimalField(max_digits=5, decimal_places=2)
     date = models.DateTimeField()
-    input_date = models.DateTimeField(default=datetime.datetime.now())
+    input_date = models.DateTimeField(default=today)
     employment = models.ForeignKey(Employment, on_delete=models.CASCADE)
     def __str__(self):
         return f'${self.pay_rate} for {self.employment.student.person.full_name} in {self.employment.class_code}'
