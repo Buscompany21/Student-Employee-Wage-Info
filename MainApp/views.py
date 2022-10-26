@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import *
 from .forms import *
 
@@ -23,17 +23,23 @@ def createStudentPageView(request):
 
     context = {
         'title': 'Create New Student',
-        'forms': [PersonForm, StudentForm]
+        'forms': [PersonForm(prefix="person"), StudentForm(prefix="student")]
     }
     return render(request, 'form.html', context)
 
 def createInstructorPageView(request):
     if(request.method=="POST"):
-        print("This data was submitted in the form: ", list(request.POST.items))
+        person_form = PersonForm(request.POST, prefix="person")
+        instructor_form = InstructorForm(request.POST, prefix="instructor")
+        if(person_form.is_valid and instructor_form.is_valid):
+            person = person_form.save()
+            instructor_form.instance.person_id = person.pk
+            instructor = instructor_form.save()
+            return redirect('index')
 
     context = {
         'title': 'Create New Instructor',
-        'forms': [PersonForm, InstructorForm]
+        'forms': [PersonForm(prefix="person"), InstructorForm(prefix="instructor")]
     }
     print(context['forms'][1])
     return render(request, 'form.html', context)
