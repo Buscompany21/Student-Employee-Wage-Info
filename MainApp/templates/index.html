@@ -9,6 +9,12 @@
     This is the index page with a link to a <a href={% url 'test' %}>second page</a>
 </p>
 
+<p>
+    <a href={% url 'create-instructor' %}>Create Instructor</a>
+    <br />
+    <a href={% url 'create-student' %}>Create Student</a>
+</p>
+
 <h2>Instructors</h2>
 <ul>
     {% for instructor in instructors %}
