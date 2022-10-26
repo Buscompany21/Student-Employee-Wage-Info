@@ -4,6 +4,7 @@ from .models import *
 from crispy_forms.helper import FormHelper
 
 # this class just makes it so you can render multiple forms inside a single form tag
+# (so we can do things like create a person object and a student object at the same time)
 class BaseForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
