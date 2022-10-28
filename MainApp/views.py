@@ -87,7 +87,7 @@ def editInstructorPageView(request, person_id):
         person_form, instructor_form = PersonForm(prefix="person", instance=instructor.person), InstructorForm(prefix="instructor", instance=instructor)
 
     context = {
-        'title': 'Create New Instructor',
+        'title': 'Update Instructor',
         'forms': [person_form, instructor_form]
     }
     return render(request, 'form.html', context)
@@ -118,7 +118,7 @@ def editEmploymentPageView(request, employment_id):
         employment_form = EmploymentForm(prefix="employment", instance=employment)
     
     context = {
-        'title': 'Create New Employment',
+        'title': 'Update Employment',
         'forms': [employment_form]
     }
     return render(request, 'form.html', context)
