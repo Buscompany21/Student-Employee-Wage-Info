@@ -17,21 +17,24 @@
     <a href={% url 'create-employment' %}>Create Employment with Existing Student</a>
 </p>
 
-<h2>Instructors</h2>
+<h2>Instructors (click to edit)</h2>
 <ul>
     {% for instructor in instructors %}
-        <li>{{instructor.person.full_name}}</li>
+        <li>
+            <a href={% url 'edit-instructor' instructor.person_id %}>{{instructor.person.full_name}}</a>
+        </li>
     {% endfor %}
 </ul>
 
-<h2>Students and Their Jobs</h2>
+<h2>Students and Their Jobs (click to edit)</h2>
 <ul>
     {% for student in students %}
-        <li>{{student.person.full_name}}
+        <li>
+            <a href={% url 'edit-student' student.person_id %}>{{student.person.full_name}}</a>
             <ul>
                 {% for employment in student.employment_set.all %}
                 <li>
-                    {{employment.position_type}} for {{employment.supervisor.person.full_name}}
+                    <a href={% url 'edit-employment' employment.id %}>{{employment.position_type}} for {{employment.supervisor.person.full_name}}</a>
                     {% if employment.class_code %}in class {{employment.class_code}}{% endif %}
                     <ul>
                         {% for semester in employment.semesters.all %}

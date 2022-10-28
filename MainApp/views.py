@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from .models import *
 from .forms import *
 
@@ -18,7 +18,7 @@ def testPageView(request):
 def createStudentPageView(request):
     if(request.method=="POST"):
         person_form = PersonForm(request.POST, prefix="person")
-        student_form = StudentForm(request.POST, prefix="instructor")
+        student_form = StudentForm(request.POST, prefix="student")
         if(person_form.is_valid() and student_form.is_valid()):
             person = person_form.save()
             student_form.instance.person_id = person.pk
@@ -29,6 +29,28 @@ def createStudentPageView(request):
 
     context = {
         'title': 'Create New Student',
+        'forms': [person_form, student_form]
+    }
+    return render(request, 'form.html', context)
+
+# the edit views are very similar to the create views
+# and could probably be consolidated into a single view
+# but my brain is too small to figure it out right now
+def editStudentPageView(request, person_id):
+    student = get_object_or_404(Student, pk=person_id)
+    if(request.method=="POST"):
+        person_form = PersonForm(request.POST, prefix="person", instance=student.person)
+        student_form = StudentForm(request.POST, prefix="student", instance=student)
+        if(person_form.is_valid() and student_form.is_valid()):
+            person = person_form.save()
+            student_form.instance.person_id = person.pk
+            student = student_form.save()
+            return redirect('index')
+    else:
+        person_form, student_form = PersonForm(prefix="person", instance=student.person), StudentForm(prefix="student", instance=student)
+
+    context = {
+        'title': 'Update Student',
         'forms': [person_form, student_form]
     }
     return render(request, 'form.html', context)
@@ -51,6 +73,25 @@ def createInstructorPageView(request):
     }
     return render(request, 'form.html', context)
 
+def editInstructorPageView(request, person_id):
+    instructor = get_object_or_404(Instructor, pk=person_id)
+    if(request.method=="POST"):
+        person_form = PersonForm(request.POST, prefix="person", instance=instructor.person)
+        instructor_form = InstructorForm(request.POST, prefix="instructor", instance=instructor)
+        if(person_form.is_valid() and instructor_form.is_valid()):
+            person = person_form.save()
+            instructor_form.instance.person_id = person.pk
+            instructor = instructor_form.save()
+            return redirect('index')
+    else:
+        person_form, instructor_form = PersonForm(prefix="person", instance=instructor.person), InstructorForm(prefix="instructor", instance=instructor)
+
+    context = {
+        'title': 'Create New Instructor',
+        'forms': [person_form, instructor_form]
+    }
+    return render(request, 'form.html', context)
+
 def createEmploymentPageView(request):
     if(request.method == "POST"):
         employment_form = EmploymentForm(request.POST, prefix="employment")
@@ -59,6 +100,22 @@ def createEmploymentPageView(request):
             return redirect('index')
     else:
         employment_form = EmploymentForm(prefix="employment")
+    
+    context = {
+        'title': 'Create New Employment',
+        'forms': [employment_form]
+    }
+    return render(request, 'form.html', context)
+
+def editEmploymentPageView(request, employment_id):
+    employment = get_object_or_404(Employment, pk=employment_id)
+    if(request.method == "POST"):
+        employment_form = EmploymentForm(request.POST, prefix="employment", instance=employment)
+        if(employment_form.is_valid()):
+            employment = employment_form.save()
+            return redirect('index')
+    else:
+        employment_form = EmploymentForm(prefix="employment", instance=employment)
     
     context = {
         'title': 'Create New Employment',
