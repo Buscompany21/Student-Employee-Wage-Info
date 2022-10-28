@@ -1,5 +1,4 @@
 from django import forms
-from django import forms
 from .models import *
 from crispy_forms.helper import FormHelper
 
@@ -26,3 +25,11 @@ class InstructorForm(BaseForm):
     class Meta:
         model = Instructor
         exclude=('person',)
+
+class EmploymentForm(BaseForm):
+    class Meta:
+        model = Employment
+        exclude = ('terminated_date', 'survey_sent', 'eform_submission', 'work_auth_received', 'name_change_complete')
+        widgets = {
+            'hire_date': forms.DateInput(attrs={'type': 'date'})
+        }

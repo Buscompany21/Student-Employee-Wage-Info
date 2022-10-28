@@ -5,5 +5,6 @@ urlpatterns=[
   path('', views.indexPageView, name="index"),
   path('test-page', views.testPageView, name="test"),
   path('students/create', views.createStudentPageView, name="create-student"),
-  path('instructors/create', views.createInstructorPageView, name="create-instructor")
+  path('instructors/create', views.createInstructorPageView, name="create-instructor"),
+  path('employments/create', views.createEmploymentPageView, name="create-employment")
 ]

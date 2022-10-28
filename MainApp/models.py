@@ -41,7 +41,7 @@ class Person(models.Model):
     last_name = models.CharField(max_length=100)
     byu_name = models.CharField(max_length=200)
     gender = models.ForeignKey(Gender, null=False, on_delete=models.RESTRICT)
-    email = models.CharField(max_length=100)
+    email = models.EmailField()
     phone = models.CharField(max_length=15)
     byu_id = models.CharField(max_length=9)
 
@@ -82,8 +82,8 @@ class Employment(models.Model):
     terminated_date = models.DateField(null=True, blank=True)
     survey_sent = models.DateTimeField(null=True, blank=True)
     eform_submission = models.DateTimeField(null=True, blank=True)
-    work_auth_recieved = models.DateTimeField(null=True, blank=True)
-    name_change_complete = models.BooleanField()
+    work_auth_received = models.DateTimeField(null=True, blank=True)
+    name_change_complete = models.BooleanField(default=False)
     notes = models.TextField(blank=True)
 
     def __str__(self):
