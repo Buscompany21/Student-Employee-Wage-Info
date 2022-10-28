@@ -26,10 +26,22 @@ class InstructorForm(BaseForm):
         model = Instructor
         exclude=('person',)
 
-class EmploymentForm(BaseForm):
+class CreateEmploymentForm(BaseForm):
     class Meta:
         model = Employment
         exclude = ('terminated_date', 'survey_sent', 'eform_submission', 'work_auth_received', 'name_change_complete')
         widgets = {
             'hire_date': forms.DateInput(attrs={'type': 'date'})
+        }
+
+class UpdateEmploymentForm(BaseForm):
+    class Meta:
+        model = Employment
+        fields = '__all__'
+        widgets = {
+            'hire_date': forms.DateInput(attrs={'type': 'date',}),
+            'terminated_date': forms.DateInput(attrs={'type': 'date'}),
+            'survey_sent': forms.DateInput(attrs={'type': 'date'}),
+            'eform_submission': forms.DateInput(attrs={'type': 'date'}),
+            'work_auth_received': forms.DateInput(attrs={'type': 'date'}),
         }

@@ -94,12 +94,12 @@ def editInstructorPageView(request, person_id):
 
 def createEmploymentPageView(request):
     if(request.method == "POST"):
-        employment_form = EmploymentForm(request.POST, prefix="employment")
+        employment_form = CreateEmploymentForm(request.POST, prefix="employment")
         if(employment_form.is_valid()):
             employment = employment_form.save()
             return redirect('index')
     else:
-        employment_form = EmploymentForm(prefix="employment")
+        employment_form = CreateEmploymentForm(prefix="employment")
     
     context = {
         'title': 'Create New Employment',
@@ -110,12 +110,12 @@ def createEmploymentPageView(request):
 def editEmploymentPageView(request, employment_id):
     employment = get_object_or_404(Employment, pk=employment_id)
     if(request.method == "POST"):
-        employment_form = EmploymentForm(request.POST, prefix="employment", instance=employment)
+        employment_form = UpdateEmploymentForm(request.POST, prefix="employment", instance=employment)
         if(employment_form.is_valid()):
             employment = employment_form.save()
             return redirect('index')
     else:
-        employment_form = EmploymentForm(prefix="employment", instance=employment)
+        employment_form = UpdateEmploymentForm(prefix="employment", instance=employment)
     
     context = {
         'title': 'Update Employment',
