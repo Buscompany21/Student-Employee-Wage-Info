@@ -3,6 +3,7 @@ from django.urls import path
 from . import views
 urlpatterns=[
   path('', views.indexPageView, name="index"),
+  path('semesters/<int:semester_id>', views.indexPageView, name="index"),
   path('test-page', views.testPageView, name="test"),
   path('students/create', views.createStudentPageView, name="create-student"),
   path('students/edit/<int:person_id>', views.editStudentPageView, name='edit-student'),

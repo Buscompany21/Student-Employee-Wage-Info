@@ -1,53 +1,67 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>
-    Home Page
-</h1>
+<div class="d-flex flex-row align-items-center justify-content-between">
+    <h1>
+        Employments for {{ semester.season.name }} {{ semester.year }}
+    </h1>
+    
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ semester.season.name }} {{ semester.year }}
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            {% for s in semesters %}
+            <li><a class="dropdown-item" href={% url 'index' s.id %}>{{ s.season.name }} {{ s.year }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 
-<p>
-    This is the index page with a link to a <a href={% url 'test' %}>second page</a>
-</p>
-
-<p>
-    <a href={% url 'create-instructor' %}>Create Instructor</a>
-    <br />
-    <a href={% url 'create-student' %}>Create Student</a>
-    <br />
-    <a href={% url 'create-employment' %}>Create Employment with Existing Student</a>
-</p>
-
-<h2>Instructors (click to edit)</h2>
-<ul>
-    {% for instructor in instructors %}
-        <li>
-            <a href={% url 'edit-instructor' instructor.person_id %}>{{instructor.person.full_name}}</a>
-        </li>
+<table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>Student Name</th>
+            <th>Supervisor</th>
+            <th>Employment</th>
+            <th>Qualtrics Survey Sent</th>
+            <th>EForm Submission</th>
+            <th>Work Auth Recieved</th>
+            <th>Name Change Complete</th>
+        </tr>
+    </thead>
+    {% for employment in employments %}
+        <tr>
+            <td>
+                <a class="text-decoration-none" href={% url 'edit-student' employment.student.person_id %}>{{employment.student.person.full_name}}</a>
+            </td>
+            <td>
+                <a class="text-decoration-none" href={% url 'edit-instructor' employment.supervisor.person_id %}>{{employment.supervisor.person.full_name}}</a>
+            </td>
+            <td>
+                <a class="text-decoration-none" href={% url 'edit-employment' employment.id %}>
+                    {{employment.position_type}}
+                    {% if employment.class_code %}({{employment.class_code}}){% endif %}
+                </a>
+            </td>
+            <td>
+                {{employment.survey_sent|date:"M. d, Y"|default:"No"}}
+            </td>
+            <td>
+                {{employment.eform_submission|date:"M. d, Y"|default:"No"}}
+            </td>
+            <td>
+                {{employment.work_auth_recieved|date:"M. d, Y"|default:"No"}}
+            </td>
+            <td>
+                {{employment.name_change_complete|date:"M. d, Y"|default:"No"}}
+            </td>
+        </tr>
     {% endfor %}
-</ul>
+</table>
 
-<h2>Students and Their Jobs (click to edit)</h2>
-<ul>
-    {% for student in students %}
-        <li>
-            <a href={% url 'edit-student' student.person_id %}>{{student.person.full_name}}</a>
-            <ul>
-                {% for employment in student.employment_set.all %}
-                <li>
-                    <a href={% url 'edit-employment' employment.id %}>{{employment.position_type}} for {{employment.supervisor.person.full_name}}</a>
-                    {% if employment.class_code %}in class {{employment.class_code}}{% endif %}
-                    <ul>
-                        {% for semester in employment.semesters.all %}
-                        <li>
-                            {{semester.season.name}} {{semester.year}}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </li>
-                {% endfor %}
-            </ul>
-        </li>
-    {% endfor %}
-</ul>
+<a class="btn btn-primary" href={% url 'create-instructor' %}>Create Instructor</a>
+<a class="btn btn-primary" href={% url 'create-student' %}>Create Student</a>
+<a class="btn btn-primary" href={% url 'create-employment' %}>Create Employment</a>
 
 {% endblock content %}

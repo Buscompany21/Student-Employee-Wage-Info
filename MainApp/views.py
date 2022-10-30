@@ -1,14 +1,28 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import *
 from .forms import *
+from datetime import date
 
 # Create your views here.
-def indexPageView(request):
-    students = Student.objects.all()
-    instructors = Instructor.objects.all()
+def indexPageView(request,semester_id=None):
+    if(semester_id == None):
+        today = date.today()
+        month = today.month
+        if(1 <= month <= 4):
+            season = Season.objects.get(name='Winter')
+        elif(5 <= month <= 8):
+            season = Season.objects.get(name='Spring/Summer')
+        elif(9 <= month <= 12):
+            season = Season.objects.get(name='Fall')
+        semester = Semester.objects.get(year=today.year, season__id=season.id)
+        semester_id = semester.id
+    else:
+        semester = Semester.objects.get(pk=semester_id)
+    employments = Semester.objects.get(pk=semester_id).employment_set.all()
     context = {
-        'students': students,
-        'instructors': instructors
+        'employments': employments,
+        'semester': semester,
+        'semesters': Semester.objects.all(),
     }
     return render(request, 'index.html', context)
 
@@ -29,7 +43,7 @@ def createStudentPageView(request):
 
     context = {
         'title': 'Create New Student',
-        'forms': [person_form, student_form]
+        'forms': [person_form, student_form],
     }
     return render(request, 'form.html', context)
 
