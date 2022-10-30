@@ -51,9 +51,15 @@ def editStudentPageView(request, person_id):
 
     context = {
         'title': 'Update Student',
-        'forms': [person_form, student_form]
+        'forms': [person_form, student_form],
+        'delete_url': f'/students/delete/{person_id}'
     }
     return render(request, 'form.html', context)
+
+def deleteStudentPageView(request, person_id):
+    person = get_object_or_404(Person, pk=person_id)
+    person.delete()
+    return redirect("index")
 
 def createInstructorPageView(request):
     if(request.method=="POST"):
@@ -88,9 +94,15 @@ def editInstructorPageView(request, person_id):
 
     context = {
         'title': 'Update Instructor',
-        'forms': [person_form, instructor_form]
+        'forms': [person_form, instructor_form],
+        'delete_url': f'/instructors/delete/{person_id}'
     }
     return render(request, 'form.html', context)
+
+def deleteInstructorPageView(request, person_id):
+    person = get_object_or_404(Person, pk=person_id)
+    person.delete()
+    return redirect("index")
 
 def createEmploymentPageView(request):
     if(request.method == "POST"):
@@ -103,7 +115,7 @@ def createEmploymentPageView(request):
     
     context = {
         'title': 'Create New Employment',
-        'forms': [employment_form]
+        'forms': [employment_form],
     }
     return render(request, 'form.html', context)
 
@@ -119,6 +131,12 @@ def editEmploymentPageView(request, employment_id):
     
     context = {
         'title': 'Update Employment',
-        'forms': [employment_form]
+        'forms': [employment_form],
+        'delete_url': f'/employments/delete/{employment_id}'
     }
     return render(request, 'form.html', context)
+
+def deleteEmploymentPageView(request, employment_id):
+    employment = get_object_or_404(Person, pk=employment_id)
+    employment.delete()
+    return redirect("index")

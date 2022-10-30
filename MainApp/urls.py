@@ -6,8 +6,11 @@ urlpatterns=[
   path('test-page', views.testPageView, name="test"),
   path('students/create', views.createStudentPageView, name="create-student"),
   path('students/edit/<int:person_id>', views.editStudentPageView, name='edit-student'),
+  path('students/delete/<int:person_id>', views.deleteStudentPageView, name="delete-student"),
   path('instructors/create', views.createInstructorPageView, name="create-instructor"),
   path('instructors/edit/<int:person_id>', views.editInstructorPageView, name="edit-instructor"),
+  path('instructors/delete/<int:person_id>', views.deleteInstructorPageView, name="delete-instructor"),
   path('employments/create', views.createEmploymentPageView, name="create-employment"),
   path('employments/edit/<int:employment_id>', views.editEmploymentPageView, name="edit-employment"),
+  path('employments/delete/<int:employment_id>', views.deleteEmploymentPageView, name="delete-instructor"),
 ]

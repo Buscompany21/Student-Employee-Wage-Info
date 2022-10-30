@@ -38,6 +38,7 @@ class UpdateEmploymentForm(BaseForm):
     class Meta:
         model = Employment
         fields = '__all__'
+        # show date inputs instead of plain text ones
         widgets = {
             'hire_date': forms.DateInput(attrs={'type': 'date',}),
             'terminated_date': forms.DateInput(attrs={'type': 'date'}),
