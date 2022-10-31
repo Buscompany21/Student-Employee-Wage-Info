@@ -27,6 +27,12 @@ def indexPageView(request,semester_id=None):
     }
     return render(request, 'index.html', context)
 
+def reportsPageView(request):
+    return render(request, 'reports.html')
+
+def notificationsPageView(request):
+    return render(request, 'notifications.html')
+
 def testPageView(request):
     return render(request, 'test.html')
 
