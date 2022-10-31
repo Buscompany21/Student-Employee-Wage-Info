@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .models import *
 from .forms import *
 from datetime import date
+from .mailer import send_email
 
 # Create your views here.
 def indexPageView(request,semester_id=None):
@@ -59,6 +60,7 @@ def editStudentPageView(request, person_id):
             person = person_form.save()
             student_form.instance.person_id = person.pk
             student = student_form.save()
+
             return redirect('index')
     else:
         person_form, student_form = PersonForm(prefix="person", instance=student.person), StudentForm(prefix="student", instance=student)
@@ -138,7 +140,21 @@ def editEmploymentPageView(request, employment_id):
     if(request.method == "POST"):
         employment_form = UpdateEmploymentForm(request.POST, prefix="employment", instance=employment)
         if(employment_form.is_valid()):
+
+            new_workauth_value = employment_form.cleaned_data['work_auth_received']
+            previous_workauth_value = Employment.objects.get(pk=employment_id).work_auth_received
+
             employment = employment_form.save()
+
+            # if previously NOT authorized but NOW authorized, send email
+            if(new_workauth_value and not previous_workauth_value):
+                send_email(
+                    f'You are authorized to work',
+                    f'{employment.student.person.full_name}, you are authorized to work as a {employment.position_type} for {employment.supervisor.person.full_name}. Have fun!',
+                    'byu_information_systems_fake@fake.com',
+                    [employment.student.person.email]
+                )
+
             return redirect('index')
     else:
         employment_form = UpdateEmploymentForm(prefix="employment", instance=employment)
