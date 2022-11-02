@@ -29,7 +29,7 @@ def get_notifications():
     current_semester = get_current_semester()
     # all the employments that HAVE gotten a raise
     relevant_employments = Employment.objects.filter(semesters__id=current_semester.id)
-    raise_employment_ids = {r.employment.id for r in PayRate.objects.filter(date__gte=current_semester.start_date).select_related('employment')}
+    raise_employment_ids = {r.employment.id for r in PayRate.objects.filter(effective_date__gte=current_semester.start_date).select_related('employment')}
     no_raise_employments = relevant_employments.exclude(id__in=raise_employment_ids)
     notifications['pay_increase'] = no_raise_employments
     return notifications

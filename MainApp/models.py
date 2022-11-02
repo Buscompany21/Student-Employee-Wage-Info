@@ -88,7 +88,7 @@ class Employment(models.Model):
 
     @property
     def current_pay_rate(self):
-        return self.payrate_set.latest('date')
+        return self.payrate_set.latest('effective_date')
 
     def __str__(self):
         return f'{self.student.person.full_name} ({self.position_type.name} for {self.supervisor.person.full_name})'

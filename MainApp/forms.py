@@ -53,5 +53,5 @@ class PayRateForm(BaseForm):
         fields = "__all__"
         exclude = ("employment","input_date")
         widgets = {
-            'date': forms.DateInput(attrs={'type': 'date',}),
+            'effective_date': forms.DateInput(attrs={'type': 'date',}),
         }
