@@ -3,5 +3,79 @@
 {% load crispy_forms_tags %}
 
 <h1>Notifications</h1>
+<h2>Survey sent but no EForm submission</h2>
+<div class="table-responsive">
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Supervisor</th>
+                <th>Employment</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for n in eform_notifications %}
+            <tr>
+                <td>{{n.student.person.full_name}}</td>
+                <td>{{n.supervisor.person.full_name}}</td>
+                <td>
+                    {{employment.position_type}}
+                    {% if employment.class_code %}({{employment.class_code}}){% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<h2>Work Auth not recieved after 1 week</h2>
+<div class="table-responsive">
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Supervisor</th>
+                <th>Employment</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for n in work_auth_notifications %}
+            <tr>
+                <td>{{n.student.person.full_name}}</td>
+                <td>{{n.supervisor.person.full_name}}</td>
+                <td>
+                    {{employment.position_type}}
+                    {% if employment.class_code %}({{employment.class_code}}){% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<h2>No pay increase during current semester</h2>
+<div class="table-responsive">
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Supervisor</th>
+                <th>Employment</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for n in pay_increase_notifications %}
+            <tr>
+                <td>{{n.student.person.full_name}}</td>
+                <td>{{n.supervisor.person.full_name}}</td>
+                <td>
+                    {{employment.position_type}}
+                    {% if employment.class_code %}({{employment.class_code}}){% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% endblock content %}

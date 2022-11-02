@@ -26,10 +26,10 @@ class Season(models.Model):
         return self.name
 
 class Semester(models.Model):
-    year = models.IntegerField()
+    start_date = models.DateField()
     season = models.ForeignKey(Season, on_delete=models.RESTRICT)
     def __str__(self):
-        return f'{self.season.__str__()} {self.year}'
+        return f'{self.season.__str__()} {self.start_date.strftime("%Y")}'
 
 class EmplRecord(models.Model):
     value = models.IntegerField()

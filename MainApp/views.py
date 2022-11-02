@@ -3,23 +3,15 @@ from .models import *
 from .forms import *
 from datetime import date
 from .mailer import send_email
+from .utils import get_current_semester, get_notifications, get_notification_count
 
 # Create your views here.
 def indexPageView(request,semester_id=None):
     if(semester_id == None):
-        today = date.today()
-        month = today.month
-        if(1 <= month <= 4):
-            season = Season.objects.get(name='Winter')
-        elif(5 <= month <= 8):
-            season = Season.objects.get(name='Spring/Summer')
-        elif(9 <= month <= 12):
-            season = Season.objects.get(name='Fall')
-        semester = Semester.objects.get(year=today.year, season__id=season.id)
-        semester_id = semester.id
+        semester = get_current_semester()
     else:
         semester = Semester.objects.get(pk=semester_id)
-    employments = Semester.objects.get(pk=semester_id).employment_set.all()
+    employments = semester.employment_set.all()
     context = {
         'employments': employments,
         'semester': semester,
@@ -31,7 +23,13 @@ def reportsPageView(request):
     return render(request, 'reports.html')
 
 def notificationsPageView(request):
-    return render(request, 'notifications.html')
+    notifications = get_notifications()
+    context = {
+        'eform_notifications': notifications['eform'],
+        'work_auth_notifications': notifications['work_auth'],
+        'pay_increase_notifications': notifications['pay_increase'],
+    }
+    return render(request, 'notifications.html', context)
 
 def testPageView(request):
     return render(request, 'test.html')

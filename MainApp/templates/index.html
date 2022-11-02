@@ -3,16 +3,16 @@
 
 <div class="d-flex flex-row align-items-center justify-content-between">
     <h1>
-        Employments for {{ semester.season.name }} {{ semester.year }}
+        Employments for {{ semester }}
     </h1>
     
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-          {{ semester.season.name }} {{ semester.year }}
+          {{ semester }}
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             {% for s in semesters %}
-            <li><a class="dropdown-item" href={% url 'index' s.id %}>{{ s.season.name }} {{ s.year }}</a></li>
+            <li><a class="dropdown-item" href={% url 'index' s.id %}>{{ s }}</a></li>
             {% endfor %}
         </ul>
     </div>
