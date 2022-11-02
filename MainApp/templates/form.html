@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 
 <h1>{{ title }}</h1>
+</ul>
 <form method="post">
     {{ form.errors }}
     {% csrf_token %}
@@ -14,5 +15,13 @@
     <a class="btn btn-danger" href="{{delete_url}}">Delete</a>
     {% endif %}
 </form>
+
+{% if info_title %}
+<h3 class="mt-4">{{info_title}}</h3>
+{% endif %}
+<ul>
+{% for i in info %}
+<li>{{i}}</li>
+{% endfor %}
 
 {% endblock content %}

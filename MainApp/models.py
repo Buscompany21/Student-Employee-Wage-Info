@@ -109,4 +109,5 @@ class PayRate(models.Model):
     input_date = models.DateTimeField(default=today)
     employment = models.ForeignKey(Employment, on_delete=models.CASCADE)
     def __str__(self):
-        return f'${self.pay_rate} for {self.employment.student.person.full_name} in {self.employment.class_code}'
+        end = f' in {self.employment.class_code}' if self.employment.class_code else ''
+        return f'${self.pay_rate} for {self.employment.student.person.full_name} on {self.effective_date.strftime("%b. %d, %Y")} (input on {self.input_date.strftime("%b. %d, %Y")}) {end}'

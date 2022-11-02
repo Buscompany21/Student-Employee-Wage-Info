@@ -49,7 +49,9 @@ def updatePayRatePageView(request, employment_id):
         payrate_form = PayRateForm()
     context = {
         'title': f'Update Pay Rate for {employment.__str__()}',
-        'forms': [payrate_form]
+        'forms': [payrate_form],
+        'info_title': 'Pay Rate History',
+        'info': employment.payrate_set.all()
     }
     return render(request, 'form.html', context)
 
