@@ -4,6 +4,7 @@
 
 <h1>{{ title }}</h1>
 <form method="post">
+    {{ form.errors }}
     {% csrf_token %}
     {% for form in forms %}
     {% crispy form %}

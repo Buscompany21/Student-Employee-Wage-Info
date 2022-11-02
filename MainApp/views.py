@@ -34,6 +34,25 @@ def notificationsPageView(request):
 def testPageView(request):
     return render(request, 'test.html')
 
+def updatePayRatePageView(request, employment_id):
+    employment = get_object_or_404(Employment, pk=employment_id)
+    if(request.method=="POST"):
+        payrate_form = PayRateForm(request.POST)
+        print(payrate_form.errors)
+        if(payrate_form.is_valid()):
+            print(payrate_form.errors)
+            payrate = payrate_form.save(commit=False)
+            payrate.employment = employment
+            payrate.save()
+            return redirect('index')
+    else:
+        payrate_form = PayRateForm()
+    context = {
+        'title': f'Update Pay Rate for {employment.__str__()}',
+        'forms': [payrate_form]
+    }
+    return render(request, 'form.html', context)
+
 def createStudentPageView(request):
     if(request.method=="POST"):
         person_form = PersonForm(request.POST, prefix="person")

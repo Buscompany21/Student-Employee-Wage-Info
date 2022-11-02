@@ -86,12 +86,16 @@ class Employment(models.Model):
     name_change_complete = models.BooleanField(default=False)
     notes = models.TextField(blank=True)
 
+    @property
+    def current_pay_rate(self):
+        return self.payrate_set.latest('date')
+
     def __str__(self):
         return f'{self.student.person.full_name} ({self.position_type.name} for {self.supervisor.person.full_name})'
 
 class PayRate(models.Model):
     pay_rate = models.DecimalField(max_digits=5, decimal_places=2)
-    date = models.DateTimeField()
+    effective_date = models.DateTimeField()
     input_date = models.DateTimeField(default=today)
     employment = models.ForeignKey(Employment, on_delete=models.CASCADE)
     def __str__(self):

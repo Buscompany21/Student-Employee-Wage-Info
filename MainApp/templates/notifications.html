@@ -11,6 +11,7 @@
                 <th>Student Name</th>
                 <th>Supervisor</th>
                 <th>Employment</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -19,9 +20,10 @@
                 <td>{{n.student.person.full_name}}</td>
                 <td>{{n.supervisor.person.full_name}}</td>
                 <td>
-                    {{employment.position_type}}
-                    {% if employment.class_code %}({{employment.class_code}}){% endif %}
+                    {{n.position_type}}
+                    {% if n.class_code %}({{n.class_code}}){% endif %}
                 </td>
+                <td><a class="btn btn-primary" href={% url 'edit-employment' n.id %}>View Details</a></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -36,6 +38,7 @@
                 <th>Student Name</th>
                 <th>Supervisor</th>
                 <th>Employment</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -44,9 +47,10 @@
                 <td>{{n.student.person.full_name}}</td>
                 <td>{{n.supervisor.person.full_name}}</td>
                 <td>
-                    {{employment.position_type}}
-                    {% if employment.class_code %}({{employment.class_code}}){% endif %}
+                    {{n.position_type}}
+                    {% if n.class_code %}({{n.class_code}}){% endif %}
                 </td>
+                <td><a class="btn btn-primary" href={% url 'edit-employment' n.id %}>View Details</a></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -61,6 +65,7 @@
                 <th>Student Name</th>
                 <th>Supervisor</th>
                 <th>Employment</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -69,9 +74,10 @@
                 <td>{{n.student.person.full_name}}</td>
                 <td>{{n.supervisor.person.full_name}}</td>
                 <td>
-                    {{employment.position_type}}
-                    {% if employment.class_code %}({{employment.class_code}}){% endif %}
+                    {{n.position_type}}
+                    {% if n.class_code %}({{n.class_code}}){% endif %}
                 </td>
+                <td><a href={% url 'update-payrate' n.id %} class="btn btn-primary">Increase Pay Rate</a></td>
             </tr>
             {% endfor %}
         </tbody>

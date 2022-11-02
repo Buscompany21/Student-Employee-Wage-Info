@@ -16,4 +16,5 @@ urlpatterns=[
   path('employments/create', views.createEmploymentPageView, name="create-employment"),
   path('employments/edit/<int:employment_id>', views.editEmploymentPageView, name="edit-employment"),
   path('employments/delete/<int:employment_id>', views.deleteEmploymentPageView, name="delete-instructor"),
+  path('payrate/update/<int:employment_id>', views.updatePayRatePageView, name="update-payrate"),
 ]

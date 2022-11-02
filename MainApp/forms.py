@@ -46,3 +46,12 @@ class UpdateEmploymentForm(BaseForm):
             'eform_submission': forms.DateInput(attrs={'type': 'date'}),
             'work_auth_received': forms.DateInput(attrs={'type': 'date'}),
         }
+
+class PayRateForm(BaseForm):
+    class Meta:
+        model = PayRate
+        fields = "__all__"
+        exclude = ("employment","input_date")
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date',}),
+        }
