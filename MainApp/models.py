@@ -1,3 +1,4 @@
+from multiprocessing import current_process
 from django.db import models
 import datetime
 from django.utils import timezone
@@ -89,6 +90,15 @@ class Employment(models.Model):
     @property
     def current_pay_rate(self):
         return self.payrate_set.latest('effective_date')
+
+    @property
+    def pay_increase_amount(self):
+        try:
+            previous_pay_rate = self.payrate_set.order_by('-effective_date')[1]
+            print(self.current_pay_rate.pay_rate-previous_pay_rate.pay_rate)
+            return self.current_pay_rate.pay_rate - previous_pay_rate.pay_rate
+        except Exception:
+            return None
 
     def __str__(self):
         return f'{self.student.person.full_name} ({self.position_type.name} for {self.supervisor.person.full_name})'
