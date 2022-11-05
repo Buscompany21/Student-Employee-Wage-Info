@@ -73,6 +73,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'MainApp.utils.get_notification_count',
+                'MainApp.utils.get_route_name',
             ],
         },
     },

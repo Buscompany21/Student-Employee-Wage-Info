@@ -1,6 +1,7 @@
 from .models import Semester, Employment, PayRate
 from datetime import date, timedelta
 from django.utils import timezone
+from django.urls import resolve
 
 def get_current_semester():
     latest = Semester.objects.filter(start_date__lte=date.today()).latest('start_date')
@@ -38,3 +39,8 @@ def get_notification_count(request):
     return {
         "NOTIFICATION_COUNT": len(notifications['pay_increase']) + len(notifications['work_auth']) + len(notifications['eform'])
     }
+
+def get_route_name(request):
+   return {
+    'PAGE': resolve(request.path_info).url_name
+   }
