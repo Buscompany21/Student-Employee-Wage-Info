@@ -95,7 +95,6 @@ class Employment(models.Model):
     def pay_increase_amount(self):
         try:
             previous_pay_rate = self.payrate_set.order_by('-effective_date')[1]
-            print(self.current_pay_rate.pay_rate-previous_pay_rate.pay_rate)
             return self.current_pay_rate.pay_rate - previous_pay_rate.pay_rate
         except Exception:
             return None

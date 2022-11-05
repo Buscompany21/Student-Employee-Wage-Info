@@ -12,7 +12,7 @@ def indexPageView(request,semester_id=None):
         request.session['show_reminder'] = True
     else:
         request.session['show_reminder'] = False
-        
+
     if(semester_id == None):
         semester = get_current_semester()
     else:
@@ -58,9 +58,7 @@ def updatePayRatePageView(request, employment_id):
     employment = get_object_or_404(Employment, pk=employment_id)
     if(request.method=="POST"):
         payrate_form = PayRateForm(request.POST)
-        print(payrate_form.errors)
         if(payrate_form.is_valid()):
-            print(payrate_form.errors)
             payrate = payrate_form.save(commit=False)
             payrate.employment = employment
             payrate.save()
