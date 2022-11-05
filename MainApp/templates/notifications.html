@@ -23,7 +23,7 @@
                     {{n.position_type}}
                     {% if n.class_code %}({{n.class_code}}){% endif %}
                 </td>
-                <td>Survey sent but no E-Form submission</td>
+                <td>Survey sent over 1 week ago but no E-Form submission received</td>
                 <td><a class="btn btn-primary" href={% url 'edit-employment' n.id %}>Update E-Form Status</a></td>
             </tr>
             {% endfor %}
@@ -35,7 +35,7 @@
                     {{n.position_type}}
                     {% if n.class_code %}({{n.class_code}}){% endif %}
                 </td>
-                <td>Work Auth not recieved after 1 week</td>
+                <td>Employment created over 1 week ago but no Work Auth recieved</td>
                 <td><a class="btn btn-primary" href={% url 'edit-employment' n.id %}>Update Work Auth Status</a></td>
             </tr>
             {% endfor %}
