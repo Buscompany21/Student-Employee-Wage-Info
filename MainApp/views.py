@@ -20,7 +20,21 @@ def indexPageView(request,semester_id=None):
     return render(request, 'index.html', context)
 
 def reportsPageView(request):
-    return render(request, 'reports.html')
+    num_females = 3
+    num_males = 5
+    context = {
+        'gender': {
+            'id': 'gender_chart',
+            'labels': ['Males', 'Females'],
+            'data': [num_males, num_females],
+            'title': "Male/Female Ratio",
+            'metric': "Number of People",
+            'type': "pie",
+            'colors': ['#6666cc','#cc6666']
+        }
+        # todo: add the other charts here
+    }
+    return render(request, 'reports.html', context)
 
 def notificationsPageView(request):
     notifications = get_notifications()

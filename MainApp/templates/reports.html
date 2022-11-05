@@ -4,6 +4,13 @@
 
 <h1>Reports Dashboard</h1>
 <h2>Insights</h2>
+<div class="d-grid gap-3">
+    {% include 'chart.html' with chart=gender %}
+    <!-- TODO
+    {% include 'chart.html' with chart_id='ta_ra_chart' %}
+    {% include 'chart.html' with chart_id='employee_count_chart' %}
+    {% include 'chart.html' with chart_id='average_wage_chart' %}
+    -->
+</div>
 <h2>Reports</h2>
-
 {% endblock content %}
