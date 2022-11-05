@@ -7,6 +7,12 @@ from .utils import get_current_semester, get_notifications, get_notification_cou
 
 # Create your views here.
 def indexPageView(request,semester_id=None):
+    # don't show them the reminder notification for the remainder of the session
+    if('show_reminder' not in request.session):
+        request.session['show_reminder'] = True
+    else:
+        request.session['show_reminder'] = False
+        
     if(semester_id == None):
         semester = get_current_semester()
     else:
@@ -16,6 +22,7 @@ def indexPageView(request,semester_id=None):
         'employments': employments,
         'semester': semester,
         'semesters': Semester.objects.all(),
+        'show_reminder': request.session['show_reminder']
     }
     return render(request, 'index.html', context)
 

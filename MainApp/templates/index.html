@@ -2,7 +2,7 @@
 {% block content %}
   
 <!-- Notification Modal and automatic opener script -->
-{% if NOTIFICATION_COUNT > 0 %}
+{% if NOTIFICATION_COUNT > 0 and show_reminder %}
 <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
 <div class="modal-dialog">
     <div class="modal-content">
