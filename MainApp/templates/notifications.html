@@ -3,7 +3,6 @@
 {% load crispy_forms_tags %}
 
 <h1>Notifications</h1>
-<h2>Survey sent but no EForm submission</h2>
 <div class="table-responsive">
     <table class="table table-responsive table-striped">
         <thead>
@@ -11,7 +10,8 @@
                 <th>Student Name</th>
                 <th>Supervisor</th>
                 <th>Employment</th>
-                <th>Action</th>
+                <th>Notification Type</th>
+                <th>Recommended Action</th>
             </tr>
         </thead>
         <tbody>
@@ -23,25 +23,10 @@
                     {{n.position_type}}
                     {% if n.class_code %}({{n.class_code}}){% endif %}
                 </td>
-                <td><a class="btn btn-primary" href={% url 'edit-employment' n.id %}>View Details</a></td>
+                <td>Survey sent over 1 week ago but no E-Form submission received</td>
+                <td><a class="btn btn-primary" href={% url 'edit-employment' n.id %}>Update E-Form Status</a></td>
             </tr>
             {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-<h2>Work Auth not recieved after 1 week</h2>
-<div class="table-responsive">
-    <table class="table table-responsive table-striped">
-        <thead>
-            <tr>
-                <th>Student Name</th>
-                <th>Supervisor</th>
-                <th>Employment</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
             {% for n in work_auth_notifications %}
             <tr>
                 <td>{{n.student.person.full_name}}</td>
@@ -50,25 +35,10 @@
                     {{n.position_type}}
                     {% if n.class_code %}({{n.class_code}}){% endif %}
                 </td>
-                <td><a class="btn btn-primary" href={% url 'edit-employment' n.id %}>View Details</a></td>
+                <td>Employment created over 1 week ago but no Work Auth recieved</td>
+                <td><a class="btn btn-primary" href={% url 'edit-employment' n.id %}>Update Work Auth Status</a></td>
             </tr>
             {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-<h2>No pay increase during current semester</h2>
-<div class="table-responsive">
-    <table class="table table-responsive table-striped">
-        <thead>
-            <tr>
-                <th>Student Name</th>
-                <th>Supervisor</th>
-                <th>Employment</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
             {% for n in pay_increase_notifications %}
             <tr>
                 <td>{{n.student.person.full_name}}</td>
@@ -77,6 +47,7 @@
                     {{n.position_type}}
                     {% if n.class_code %}({{n.class_code}}){% endif %}
                 </td>
+                <td>No pay increase during current semester</td>
                 <td><a href={% url 'update-payrate' n.id %} class="btn btn-primary">Increase Pay Rate</a></td>
             </tr>
             {% endfor %}

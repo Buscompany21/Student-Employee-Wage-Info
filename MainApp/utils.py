@@ -1,6 +1,7 @@
 from .models import Semester, Employment, PayRate
 from datetime import date, timedelta
 from django.utils import timezone
+from django.urls import resolve
 
 def get_current_semester():
     latest = Semester.objects.filter(start_date__lte=date.today()).latest('start_date')
@@ -15,12 +16,11 @@ def get_notifications():
     today = timezone.now()
     # notify if EForm field is unchecked 1 week after sending them the Qualtrics survey
     # get list of all employments which have survey_sent between 1 week ago and today's date that has a null eform_submission value
-    notifications['eform'] = Employment.objects.filter(survey_sent__range=[today - timedelta(days=7), today], eform_submission=None)
-
+    notifications['eform'] = Employment.objects.filter(survey_sent__lte=today - timedelta(days=7), eform_submission=None)
 
     # notify if authorized to work hasn't been checked after 1 week
     # this is pretty similar to the EForm notifications
-    notifications['work_auth'] = Employment.objects.filter(survey_sent__range=[today - timedelta(days=7), today], work_auth_received=None)
+    notifications['work_auth'] = Employment.objects.filter(survey_sent__lte=today - timedelta(days=7), work_auth_received=None)
 
     # pay increase reminders at the beginning of each semester
     # 1. Get the current semester
@@ -39,3 +39,8 @@ def get_notification_count(request):
     return {
         "NOTIFICATION_COUNT": len(notifications['pay_increase']) + len(notifications['work_auth']) + len(notifications['eform'])
     }
+
+def get_route_name(request):
+   return {
+    'PAGE': resolve(request.path_info).url_name
+   }

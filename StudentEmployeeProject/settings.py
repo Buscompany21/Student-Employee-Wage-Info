@@ -73,6 +73,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'MainApp.utils.get_notification_count',
+                'MainApp.utils.get_route_name',
             ],
         },
     },
@@ -141,3 +142,6 @@ EMAIL_HOST = os.getenv("EMAIL_HOST")
 EMAIL_PORT = os.getenv("EMAIL_PORT")
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+SESSION_COOKIE_AGE = 60 * 5 # 5 minutes
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

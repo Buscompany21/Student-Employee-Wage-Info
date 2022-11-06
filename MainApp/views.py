@@ -4,9 +4,17 @@ from .forms import *
 from datetime import date
 from .mailer import send_email
 from .utils import get_current_semester, get_notifications, get_notification_count
+import csv
+from django.http import HttpResponse
 
 # Create your views here.
 def indexPageView(request,semester_id=None):
+    # don't show them the reminder notification for the remainder of the session
+    if('show_reminder' not in request.session):
+        request.session['show_reminder'] = True
+    else:
+        request.session['show_reminder'] = False
+
     if(semester_id == None):
         semester = get_current_semester()
     else:
@@ -16,11 +24,25 @@ def indexPageView(request,semester_id=None):
         'employments': employments,
         'semester': semester,
         'semesters': Semester.objects.all(),
+        'show_reminder': request.session['show_reminder']
     }
     return render(request, 'index.html', context)
 
 def reportsPageView(request):
-    return render(request, 'reports.html')
+    num_females = 3
+    num_males = 5
+    context = {
+        'gender': {
+            'id': 'gender_chart',
+            'labels': ['Males', 'Females'],
+            'data': [num_males, num_females],
+            'title': "Male/Female Ratio",
+            'type': "pie",
+            'colors': ['#6666cc','#cc6666']
+        }
+        # todo: add the other charts here
+    }
+    return render(request, 'reports.html', context)
 
 def notificationsPageView(request):
     notifications = get_notifications()
@@ -38,9 +60,7 @@ def updatePayRatePageView(request, employment_id):
     employment = get_object_or_404(Employment, pk=employment_id)
     if(request.method=="POST"):
         payrate_form = PayRateForm(request.POST)
-        print(payrate_form.errors)
         if(payrate_form.is_valid()):
-            print(payrate_form.errors)
             payrate = payrate_form.save(commit=False)
             payrate.employment = employment
             payrate.save()
@@ -195,3 +215,13 @@ def deleteEmploymentPageView(request, employment_id):
     employment = get_object_or_404(Person, pk=employment_id)
     employment.delete()
     return redirect("index")
+
+def downloadAllEmployees(request):
+    response = HttpResponse(
+        content_type = 'text/csv',
+        headers={'Content-Disposition': 'attachment; filename="All_Employees.csv"'},
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(['First row', 'Test Data', 'Something Else'])
+    writer.writerow(['Second row', 'More Data', 'Yet Something Else'])
