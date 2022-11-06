@@ -4,6 +4,8 @@ from .forms import *
 from datetime import date
 from .mailer import send_email
 from .utils import get_current_semester, get_notifications, get_notification_count
+import csv
+from django.http import HttpResponse
 
 # Create your views here.
 def indexPageView(request,semester_id=None):
@@ -174,3 +176,13 @@ def deleteEmploymentPageView(request, employment_id):
     employment = get_object_or_404(Person, pk=employment_id)
     employment.delete()
     return redirect("index")
+
+def downloadAllEmployees(request):
+    response = HttpResponse(
+        content_type = 'text/csv',
+        headers={'Content-Disposition': 'attachment; filename="All_Employees.csv"'},
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(['First row', 'Test Data', 'Something Else'])
+    writer.writerow(['Second row', 'More Data', 'Yet Something Else'])
