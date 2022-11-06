@@ -216,12 +216,41 @@ def deleteEmploymentPageView(request, employment_id):
     employment.delete()
     return redirect("index")
 
-def downloadAllEmployees(request):
+def downloadEmployees(request, filter):
     response = HttpResponse(
         content_type = 'text/csv',
         headers={'Content-Disposition': 'attachment; filename="All_Employees.csv"'},
     )
-
     writer = csv.writer(response)
-    writer.writerow(['First row', 'Test Data', 'Something Else'])
-    writer.writerow(['Second row', 'More Data', 'Yet Something Else'])
+
+    if filter == "currentSemester":
+        semester = get_current_semester()
+        records = semester.employment_set.all()
+    elif filter == "supervisor":
+        records = Employment.objects.all().order_by("supervisor__person__first_name")
+    else:
+        records = Employment.objects.all()
+    
+    writer.writerow(['Supervisor', 'Student Name',  'Expected Hours', 'Class Code', 'Position Type', 'Semesters', 'Hire Date', 'Terminated Date', 'Survey Sent', 'E-Form Submission', 'Work Auth Recceived', 'Name Change Complete', 'Notes'])
+    
+    for record in records:
+        dataList = []
+        dataList.append(record.supervisor)
+        dataList.append(record.student)
+        dataList.append(record.expected_hours)
+        dataList.append(record.class_code)
+        dataList.append(record.position_type)
+        semesters = '| '
+        for semester in record.semesters.all():
+            semesters +=  str(semester) + ' | '
+        dataList.append(semesters)
+        dataList.append(record.hire_date)
+        dataList.append(record.terminated_date)
+        dataList.append(record.survey_sent)
+        dataList.append(record.eform_submission)
+        dataList.append(record.work_auth_received)
+        dataList.append(record.name_change_complete)
+        dataList.append(record.notes)
+        writer.writerow(dataList)
+
+    return response
