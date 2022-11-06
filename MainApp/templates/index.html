@@ -1,5 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
+  
+<!-- Notification Modal and automatic opener script -->
+{% if NOTIFICATION_COUNT > 0 and show_reminder %}
+<div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="notificationModalLabel">Notification Reminder</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        You have {{ NOTIFICATION_COUNT }} notifications in need of action.
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a type="button" class="btn btn-primary" href={% url 'notifications' %}>View Notifications</a>
+    </div>
+    </div>
+</div>
+</div>
+
+<script>
+    var myModal = new bootstrap.Modal(document.getElementById('notificationModal'))
+    myModal.show()
+</script>
+{% endif %}
 
 <div class="d-flex flex-row align-items-center justify-content-between">
     <h1>
@@ -24,6 +50,9 @@
             <th>Student Name</th>
             <th>Supervisor</th>
             <th>Employment</th>
+            <th>Current Pay Rate</th>
+            <th>Last Pay Increase</th>
+            <th>Pay Increase Amount</th>
             <th>Qualtrics Survey Sent</th>
             <th>EForm Submission</th>
             <th>Work Auth Recieved</th>
@@ -45,6 +74,17 @@
                 </a>
             </td>
             <td>
+                <a class="text-decoration-none" href={% url 'update-payrate' employment.id %}>
+                    {% if employment.current_pay_rate %}${% endif %}{{ employment.current_pay_rate.pay_rate|default:"None"}}
+                </a>
+            </td>
+            <td>
+                {{ employment.current_pay_rate.effective_date|date:"M. d, Y"|default:"None" }}
+            </td>
+            <td>
+                {% if employment.pay_increase_amount %}${% endif %}{{ employment.pay_increase_amount|default:"N/A" }}
+            </td>
+            <td>
                 {{employment.survey_sent|date:"M. d, Y"|default:"No"}}
             </td>
             <td>
@@ -64,5 +104,9 @@
 <a class="btn btn-primary" href={% url 'create-instructor' %}>Create Instructor</a>
 <a class="btn btn-primary" href={% url 'create-student' %}>Create Student</a>
 <a class="btn btn-primary" href={% url 'create-employment' %}>Create Employment</a>
+
+<div class="tableauPlaceholder">
+    <script type='module' src='https://10az.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'></script><tableau-viz id='tableau-viz' src='https://10az.online.tableau.com/t/is565/views/ProjectDashboard/Dashboard1' width='1000' height='827' hide-tabs toolbar='bottom' ></tableau-viz>
+</div>
 
 {% endblock content %}

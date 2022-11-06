@@ -1,47 +1,56 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Student Employee Site</title>
+		<!-- Bootstrap -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>	</head>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-	<body class="d-flex flex-column min-vh-100">
-		<header>
-			<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow">
-				<div class="container">
-					<a class="navbar-brand" href="{% url 'index' %}">Student Employee Site</a>
-					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<div class="collapse navbar-collapse" id="navbarNav">
-						<ul class="navbar-nav ms-auto">
-							<li class="nav-item">
-								<a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link active" aria-current="page" href="{% url 'reports' %}">Reports</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link active" aria-current="page" href="{% url 'notifications' %}"><i id="notification-bell" class="bi bi-bell"></i>({{ NOTIFICATION_COUNT }})</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</nav>
-		</header>
+		<!-- Chart.js -->
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+		<!-- BYU theme -->
+		<script async src="https://cdn.byu.edu/byu-theme-components/2.x.x/byu-theme-components.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.byu.edu/byu-theme-components/2.x.x/byu-theme-components.min.css" media="all">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="https://cdn.byu.edu/theme-fonts/1.x.x/ringside/fonts.css" media="all">
+		<link rel="stylesheet" href="https://cdn.byu.edu/theme-fonts/1.x.x/public-sans/fonts.css" media="all">
+		<link rel="icon" type="image/x-icon" href="https://brand.byu.edu/favicon-32x32.png">
+
+		<!-- Inline styles because too lazy to do collecstatic -->
+		<style>
+			html, body {
+				font-family: 'Public Sans', 'Noto Sans', 'Open Sans', Helvetica, Arial, sans-serif;
+			}
+			h1, h2, h3, h4, h5, h6 {
+				font-family: 'HCo Ringside Narrow SSm', 'Open Sans', Helvetica, Arial, sans-serif;
+			}
+		</style>
+
+		<body class="d-flex flex-column min-vh-100">
+		<byu-header>
+			<span slot="site-title">IS Student Employment Manager</span>
+			<byu-menu slot="nav" active-selector=".is-active">
+				<a class="{% if PAGE == 'index'%}is-active{% endif %}" href="{% url 'index' %}">Home</a>
+				<a class="{% if PAGE == 'reports'%}is-active{% endif %}" href="{% url 'reports' %}">Reports</a>
+				<a class="{% if PAGE == 'notifications'%}is-active{% endif %}" href="{% url 'notifications' %}">
+					Notifications
+					{% if NOTIFICATION_COUNT > 0 %}({{ NOTIFICATION_COUNT }}){% endif %}
+				</a>
+			</byu-menu>
+			<byu-user-info slot="user">
+				<a slot="login" href="#login">Sign In</a>
+				<a slot="logout" href="#logout">Sign Out</a>
+			</byu-user-info>
+
+		</byu-header>
 
 		<main class="flex-shrink-0">
-			<div class="container">
+			<div class="container mt-3">
 				{% block content %}
 				{% endblock content %}
 			</div>
 		</main>
 
-		<footer class="footer mt-auto py-3 bg-light">
-			<div class="container d-flex justify-content-center">
-				<span class="text-muted">Footer</span>
-            </div>
-		</footer>
+		<byu-footer class="mt-auto"></byu-footer>
 	</body>
 </html>

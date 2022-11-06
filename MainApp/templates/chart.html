@@ -1,0 +1,51 @@
+{% block chart %}
+<style>
+#{{chart.id}}_wrapper {
+   width: {{ width }}px;
+   height: {{ height }}200px;
+}
+</style>
+
+<div id='{{chart.id}}_wrapper'>
+   <canvas id="{{ chart.id }}" width="500" height="500"></canvas>
+</div>
+
+<script>
+    let ctx_{{chart_id}} = document.getElementById("{{ chart.id }}").getContext("2d");
+    let chart_{{chart_id}} = new Chart(ctx_{{chart_id}}, {
+      type: "{{ chart.type }}",
+      data: {
+         labels: [{% for label in chart.labels %}'{{label}}',{% endfor %}],
+         datasets: [
+            {
+              borderColor: "#333333",
+              data: [{% for datapoint in chart.data %}{{datapoint}},{% endfor %}],
+              backgroundColor: [{% for color in chart.colors %}'{{color}}',{% endfor %}],
+            }
+         ]
+      },
+      options: {
+         title: {
+            text: "{{chart.title}}",
+            display: true
+         },
+         responsive: true,
+         maintainAspectRatio: false,
+         {% if chart.type == 'bar' %}
+         legend: {
+            display: false
+         },
+         {% endif %}
+         {% if chart.type == 'bar' %}
+         scales: {
+            yAxes: [{
+               ticks: {
+                  beginAtZero: true
+               }
+            }]
+         },
+         {% endif %}
+      }
+    });
+</script>
+{% endblock chart %}

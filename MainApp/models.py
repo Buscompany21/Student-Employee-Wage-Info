@@ -1,3 +1,4 @@
+from multiprocessing import current_process
 from django.db import models
 import datetime
 from django.utils import timezone
@@ -86,13 +87,26 @@ class Employment(models.Model):
     name_change_complete = models.BooleanField(default=False)
     notes = models.TextField(blank=True)
 
+    @property
+    def current_pay_rate(self):
+        return self.payrate_set.latest('effective_date')
+
+    @property
+    def pay_increase_amount(self):
+        try:
+            previous_pay_rate = self.payrate_set.order_by('-effective_date')[1]
+            return self.current_pay_rate.pay_rate - previous_pay_rate.pay_rate
+        except Exception:
+            return None
+
     def __str__(self):
         return f'{self.student.person.full_name} ({self.position_type.name} for {self.supervisor.person.full_name})'
 
 class PayRate(models.Model):
     pay_rate = models.DecimalField(max_digits=5, decimal_places=2)
-    date = models.DateTimeField()
+    effective_date = models.DateTimeField()
     input_date = models.DateTimeField(default=today)
     employment = models.ForeignKey(Employment, on_delete=models.CASCADE)
     def __str__(self):
-        return f'${self.pay_rate} for {self.employment.student.person.full_name} in {self.employment.class_code}'
+        end = f' in {self.employment.class_code}' if self.employment.class_code else ''
+        return f'${self.pay_rate} for {self.employment.student.person.full_name} on {self.effective_date.strftime("%b. %d, %Y")} (input on {self.input_date.strftime("%b. %d, %Y")}) {end}'
