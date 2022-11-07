@@ -6,11 +6,12 @@
 <h2>Insights</h2>
 <div class="d-grid gap-3">
     <!-- Chart.js charts (disabled in favor of Tableau)
-    {% include 'chart.html' with chart=gender %}
     {% include 'chart.html' with chart_id='ta_ra_chart' %}
     {% include 'chart.html' with chart_id='employee_count_chart' %}
     {% include 'chart.html' with chart_id='average_wage_chart' %}
     -->
+
+    {% include 'chart.html' with chart=gender %}
 
     {% comment %} Tableau charts {% endcomment %}
     <div class="d-flex flex-row">
