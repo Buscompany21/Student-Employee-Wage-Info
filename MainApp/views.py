@@ -38,7 +38,9 @@ def reportsPageView(request):
             'data': [num_males, num_females],
             'title': "Male/Female Ratio",
             'type': "pie",
-            'colors': ['#6666cc','#cc6666']
+            'colors': ['#6666cc','#cc6666'],
+            'height': 200,
+            'width': 200,
         }
         # todo: add the other charts here
     }
