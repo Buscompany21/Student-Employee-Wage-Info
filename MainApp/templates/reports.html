@@ -3,24 +3,10 @@
 {% load crispy_forms_tags %}
 
 <h1>Reports Dashboard</h1>
-<div class="col-md-12 head">
-    <div class="float-right">
-        <a href={% url 'download-employees' 'supervisor' %} class="btn btn-primary"><i class="dwn"></i> Export List of All Employees by Supervisor</a>
-    </div>
-</br>
-    <div class="float-right">
-        <a href={% url 'download-employees' 'currentSemester' %} class="btn btn-primary"><i class="dwn"></i> Export List of All Employees for the Current Semester</a>
-    </div>
-</br>
-    <div class="float-right">
-        <a href={% url 'download-employees' 'all' %} class="btn btn-primary"><i class="dwn"></i> Export List of All Employees for All Time</a>
-    </div>
-</div>
-</br>
 <h2>Insights</h2>
 <div class="d-grid gap-3">
+    <!-- Chart.js charts (disabled in favor of Tableau)
     {% include 'chart.html' with chart=gender %}
-    <!-- TODO
     {% include 'chart.html' with chart_id='ta_ra_chart' %}
     {% include 'chart.html' with chart_id='employee_count_chart' %}
     {% include 'chart.html' with chart_id='average_wage_chart' %}
@@ -49,4 +35,17 @@
     </div>
 </div>
 <h2>Reports</h2>
+<div class="col-md-12 head">
+    <div class="float-right">
+        <a href={% url 'download-employees' 'supervisor' %} class="btn btn-primary"><i class="dwn"></i> Export List of All Employees by Supervisor</a>
+    </div>
+</br>
+    <div class="float-right">
+        <a href={% url 'download-employees' 'currentSemester' %} class="btn btn-primary"><i class="dwn"></i> Export List of All Employees for the Current Semester</a>
+    </div>
+</br>
+    <div class="float-right">
+        <a href={% url 'download-employees' 'all' %} class="btn btn-primary"><i class="dwn"></i> Export List of All Employees for All Time</a>
+    </div>
+</div>
 {% endblock content %}
