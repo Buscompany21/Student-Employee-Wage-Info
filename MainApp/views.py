@@ -29,13 +29,15 @@ def indexPageView(request,semester_id=None):
     return render(request, 'index.html', context)
 
 def reportsPageView(request):
-    num_females = 3
+    num_males = len(Employment.objects.filter(student__person__gender__name="Male"))
+    num_females = len(Employment.objects.filter(student__person__gender__name="Female"))
+    num_other = len(Employment.objects.filter(student__person__gender__name="Other"))
     num_males = 5
     context = {
         'gender': {
             'id': 'gender_chart',
-            'labels': ['Males', 'Females'],
-            'data': [num_males, num_females],
+            'labels': ['Males', 'Females', 'Other'],
+            'data': [num_males, num_females, num_other],
             'title': "Male/Female Ratio",
             'type': "pie",
             'colors': ['#6666cc','#cc6666'],
