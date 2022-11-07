@@ -217,19 +217,26 @@ def deleteEmploymentPageView(request, employment_id):
     return redirect("index")
 
 def downloadEmployees(request, filter):
-    response = HttpResponse(
-        content_type = 'text/csv',
-        headers={'Content-Disposition': 'attachment; filename="All_Employees.csv"'},
-    )
-    writer = csv.writer(response)
 
     if filter == "currentSemester":
         semester = get_current_semester()
+        filename = "CurrentSemester_Employments.csv"
         records = semester.employment_set.all()
     elif filter == "supervisor":
         records = Employment.objects.all().order_by("supervisor__person__first_name")
+        filename = "Employments_BySupervisor.csv"
     else:
         records = Employment.objects.all()
+        filename = "All_Employments.csv"
+    
+    content_disposition = 'attachment; filename=' + filename
+    response = HttpResponse(
+        content_type = 'text/csv',
+        headers={'Content-Disposition': content_disposition},
+    )
+    writer = csv.writer(response)
+
+    
     
     writer.writerow(['Supervisor', 'Student Name',  'Expected Hours', 'Class Code', 'Position Type', 'Semesters', 'Hire Date', 'Terminated Date', 'Survey Sent', 'E-Form Submission', 'Work Auth Recceived', 'Name Change Complete', 'Notes'])
     
